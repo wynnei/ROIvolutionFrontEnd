@@ -2,6 +2,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+interface ROIResultItem {
+    project_budget?: number;
+    net_benefit?: number;
+    roi?: number;
+    expected_success?: number;
+    industry_type?:any;
+    project_duration?:any;
+  }
 
 const API_URL =
   process.env.NODE_ENV === "production"
@@ -9,7 +17,8 @@ const API_URL =
     : "http://localhost:7071/api/getROI";
 
 export default function ViewROI() {
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<ROIResultItem[]>([]);
+
 
     useEffect(() => {
         axios.get(API_URL)
