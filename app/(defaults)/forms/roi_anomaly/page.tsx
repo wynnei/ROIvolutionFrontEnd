@@ -26,7 +26,7 @@ export default function DetectAnomalies() {
           <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
             <thead className="bg-gray-200">
               <tr>
-                <th className="px-4 py-2 text-left">Timestamp</th>
+                {/* <th className="px-4 py-2 text-left">Timestamp</th> */}
                 <th className="px-4 py-2 text-left">ROI (%)</th>
                 <th className="px-4 py-2 text-left">Industry</th>
                 
@@ -36,7 +36,7 @@ export default function DetectAnomalies() {
             <tbody>
               {anomalies.map((item, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-4 py-2">{new Date(item.timestamp).toLocaleString()}</td>
+                  {/* <td className="px-4 py-2">{new Date(item.timestamp).toLocaleString()}</td> */}
                   <td className="px-4 py-2">{item.roi.toFixed(2)}%</td>
                   <td className="px-4 py-2">{item.industry_type}</td>
                   
