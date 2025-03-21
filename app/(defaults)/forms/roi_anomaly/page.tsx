@@ -1,11 +1,12 @@
-// Anomaly Detection Page
 "use client";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
 interface Anomaly {
-  timestamp: string; // or Date if already converted
+  timestamp: string;
   roi: number;
   industry_type: string;
+  project_duration?: number; // Ensure this field exists
 }
 
 const API_URL =
@@ -14,11 +15,11 @@ const API_URL =
     : "http://localhost:7071/api/detectAnomalies";
 
 export default function DetectAnomalies() {
-  const [anomalies, setAnomalies] = useState([]);
+  const [anomalies, setAnomalies] = useState<Anomaly[]>([]); 
 
   useEffect(() => {
     axios.get(API_URL)
-      .then((res) => setAnomalies(res.data.anomalies))
+      .then((res) => setAnomalies(res.data.anomalies as Anomaly[])) 
       .catch((err) => console.error("Error fetching anomalies:", err));
   }, []);
 
@@ -34,18 +35,18 @@ export default function DetectAnomalies() {
                 <th className="px-4 py-2 text-left">Timestamp</th>
                 <th className="px-4 py-2 text-left">ROI (%)</th>
                 <th className="px-4 py-2 text-left">Industry</th>
-                
                 <th className="px-4 py-2 text-left">Duration (months)</th>
               </tr>
             </thead>
             <tbody>
               {anomalies.map((item, index) => (
                 <tr key={index} className="border-t hover:bg-gray-100">
-                  <td className="px-4 py-2">{new Date(item.timestamp).toLocaleString()}</td>
+                  <td className="px-4 py-2">
+                    {item.timestamp ? new Date(item.timestamp).toLocaleString() : "N/A"}
+                  </td>
                   <td className="px-4 py-2">{item.roi.toFixed(2)}%</td>
                   <td className="px-4 py-2">{item.industry_type}</td>
-                  
-                  <td className="px-4 py-2">{item.project_duration}</td>
+                  <td className="px-4 py-2">{item.project_duration ?? "N/A"}</td>
                 </tr>
               ))}
             </tbody>
