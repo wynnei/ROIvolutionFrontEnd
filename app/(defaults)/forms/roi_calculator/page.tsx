@@ -5,6 +5,10 @@ interface FormDataType {
     [key: string]: string; // Assuming all form fields are strings
   }
 
+  interface ROIResult {
+    [key: string]: number | string; // Adjust types based on actual API response
+}
+
 const API_URL =
   process.env.NODE_ENV === "production"
     ? "https://roimyfunctionapp.azurewebsites.net/api/calculateROI"
@@ -12,6 +16,8 @@ const API_URL =
 
 
 export default function CalculateROI() {
+    const [result, setResult] = useState<ROIResult | null>(null);
+
     const [formData, setFormData] = useState({
         project_budget: "",
         employee_impact: "",
@@ -26,7 +32,7 @@ export default function CalculateROI() {
         training_budget: "",
     });
 
-    const [result, setResult] = useState(null);
+   
     const [errorMessage, setErrorMessage] = useState(null);
 
     const handleChange = (e:any) => {
@@ -112,7 +118,8 @@ export default function CalculateROI() {
                                 <select
                                 id={key}
                                 name={key}
-                                value={formData[key]}
+                                value={formData[key as keyof typeof formData]}
+                                // value={formData[key]}
                                 onChange={handleChange}
                                 className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
@@ -128,7 +135,8 @@ export default function CalculateROI() {
                                 <input
                                     id={key}
                                     name={key}
-                                    value={formData[key]}
+                                    // value={formData[key]}
+                                    value={formData[key as keyof typeof formData]}
                                     onChange={handleChange}
                                     placeholder={key.replace("_", " ")}
                                     className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
