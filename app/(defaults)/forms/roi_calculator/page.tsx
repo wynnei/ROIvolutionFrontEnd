@@ -57,8 +57,9 @@ export default function CalculateROI() {
             setResult(response.data);
             setErrorMessage(null); // Clear previous errors
         } catch (error:any) {
-            console.error("Error calculating ROI", error.response?.data || error.message);
-            setErrorMessage(error.response?.data?.error || "An error occurred while calculating ROI.");
+            const err = error as { response?: { data?: any }; message?: string };
+    console.error("Error calculating ROI", err.response?.data || err.message);
+    setErrorMessage(err.response?.data?.error || "An error occurred while calculating ROI.");
         }
     };
 
