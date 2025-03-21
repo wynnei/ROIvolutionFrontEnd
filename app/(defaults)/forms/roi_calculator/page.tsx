@@ -1,7 +1,9 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-
+interface FormDataType {
+    [key: string]: string; // Assuming all form fields are strings
+  }
 
 const API_URL =
   process.env.NODE_ENV === "production"
@@ -54,7 +56,7 @@ export default function CalculateROI() {
             const response = await axios.post(API_URL, formattedData);
             setResult(response.data);
             setErrorMessage(null); // Clear previous errors
-        } catch (error) {
+        } catch (error:any) {
             console.error("Error calculating ROI", error.response?.data || error.message);
             setErrorMessage(error.response?.data?.error || "An error occurred while calculating ROI.");
         }
